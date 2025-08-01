@@ -1,5 +1,5 @@
 # SC-CORE
-The world's first open source Brawl Stars private server core written on JavaScript.
+The world's first open source private server core written on Ruby.
 
 # Requirements
 * Ruby
