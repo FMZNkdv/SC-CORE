@@ -12,7 +12,7 @@ class ByteArray
   end
 
   def self.hex_to_bytes(hex_str)
-    hex_str.scan(/../).map { |x| x.hex }
+    hex_str.scan(/../).map(&:hex)
   end
 
   def self.array_to_bytes(arr)
