@@ -14,7 +14,7 @@ puts "⠀⣿⣿⣿⠟⢿⣿⣿⣿⣿⣿⣿⠟⠀⠀⠀⠀⠙⢿⣿⣿⣿⣿⣿�
 PORT = 9339
 
 server = TCPServer.new(PORT)
-puts "[github.com/FMZNkdv/SC-CORE] Running on port: #{PORT}"
+puts "[github.com/FMZNkdv/SC-CORE] Running on port #{PORT}"
 
 loop do
   client = server.accept
@@ -43,4 +43,5 @@ loop do
   end
 
 end
+
 
