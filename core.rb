@@ -1,0 +1,52 @@
+require 'socket'
+require_relative 'Message/PiranhaMessage'
+require_relative 'Message/MessageFactory'
+require_relative 'Message/ClientHelloMessage'
+require_relative 'Message/ServerHelloMessage'
+require_relative 'Stream/Byte'
+require_relative 'Stream/Array'
+
+puts "⠀⠀⣠⣾⣿⣿⣿⣿⣷⣤⣾⣿⣿⡇⠀⠀⠀⣀⣴⣿⣿⣿⣿⣷⣴⣿⣿⣿⡇⠀⠀⠀⠀⠀⢀⣴⣿⣿⣶⣿⡇⢀⣰⣾⣿⣿⣷⣄⠀"
+puts "⠀⣴⣿⣿⣿⣿⣿⠛⠛⢻⣿⣿⣿⡇⠀⢀⣴⣿⣿⣿⣿⠿⠿⠿⣿⣿⣿⣿⡇⢰⣶⣶⣶⡆⢸⣿⣿⠀⠘⠛⠃⢸⣿⣿⡇⢸⣿⣿⡇"
+puts "⠀⣿⣿⣿⣿⣿⣿⣤⣤⣤⣭⣍⠉⠁⠀⢸⣿⣿⣿⣿⣿⠀⠀⠀⠿⠿⠿⠿⠇⠸⠿⠿⠿⠇⢸⣿⣿⣀⣰⣶⡆⠸⣿⣿⣇⣸⣿⣿⠇"
+puts "⠀⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠀⢸⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠛⠛⠛⠋⠀⠀⠈⠛⠛⠛⠛⠁⠀"
+puts "⠀⠀⠈⠛⠛⠛⠛⠛⣿⣿⣿⣿⣿⣿⠀⢸⣿⣿⣿⣿⣿⠀⠀⠀⣾⣿⣿⣿⡇⢰⣶⣶⣶⡆⠸⣿⣿⡿⢿⣿⣦⠀⢿⣿⣿⠿⢿⣿⡆"
+puts "⠀⣿⣿⣿⣿⣤⣤⣤⣿⣿⣿⣿⣿⡿⠀⠘⢿⣿⣿⣿⣿⣶⣶⣶⣿⣿⣿⣿⠇⢸⣿⣿⣿⡇⠀⣿⣿⡷⢾⣿⣍⠀⢸⣿⣿⠶⢸⣿⡁"
+puts "⠀⣿⣿⣿⠟⢿⣿⣿⣿⣿⣿⣿⠟⠀⠀⠀⠀⠙⢿⣿⣿⣿⣿⣿⣿⡿⠏⠁⠀⠀⠀⠀⠀⠀⢰⣿⣿⣷⢸⣿⣿⡄⣾⣿⣿⣶⣾⣿⠇ by fmznkdv >3"
+PORT = 9339
+
+server = TCPServer.new(PORT)
+puts "[SC:CORE] Running on port: #{PORT}"
+
+loop do
+  client = server.accept
+  addr = client.peeraddr[3]
+  puts "[#{addr}] >> A wild connection appeared!"
+  
+  Thread.new(client) do |connection|
+    begin
+      while data = connection.readpartial(4096)
+        id = data.unpack('n')[0]
+        
+        handler_class = MessageFactory.handle(id)
+        if handler_class
+          puts "[#{addr}] >> Gotcha #{id} packet!"
+          packet = handler_class.new(data, connection)
+          packet.decode
+          packet.process
+        else
+          puts "[#{addr}] >> Gotcha undefined #{id} packet!"
+        end
+      end
+    rescue EOFError, Errno::ECONNRESET
+      puts "[#{addr}] >> Client disconnected."
+      connection.close
+    end
+  end
+
+end
+
+
+
+
+
