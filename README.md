@@ -10,7 +10,7 @@
 The world's first open source private server core written on Ruby.
 
 # Requirements
-* [Ruby](https://rubyinstaller.org/downloads/)
+* [Ruby 3.1.2p20 (2022-04-12 revision 4491bb740a)](https://rubyinstaller.org/downloads/)
 * Skills to work with supercell games
 
 # Setting up
