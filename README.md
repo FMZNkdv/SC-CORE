@@ -10,8 +10,8 @@
 The world's first open source private server core written on Ruby.
 
 # Requirements
-* Ruby
-* Brain?
+* [Ruby](https://rubyinstaller.org/downloads/)
+* Skills to work with supercell games
 
 # Setting up
 1. Download/clone a repository:
