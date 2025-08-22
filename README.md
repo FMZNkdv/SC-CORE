@@ -25,7 +25,7 @@ The world's first open source private server core written on Ruby.
    ```
 3. Run:
    ```bash
-   ruby core,rb
+   ruby core.rb
    ```
 
 # Done!
