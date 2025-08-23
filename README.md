@@ -31,4 +31,4 @@ ____
    ```
 
 # Done!
-Now you have a working core of games from Supercell.
+Now you have a working core of games from [Supercell](https://en.wikipedia.org/wiki/Supercell_(company)).
