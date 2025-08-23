@@ -1,8 +1,8 @@
 require 'socket'
-require_relative 'Message/PiranhaMessage'
-require_relative 'Message/MessageFactory'
-require_relative 'Message/ClientHelloMessage'
-require_relative 'Message/ServerHelloMessage'
+require_relative 'Message/Piranha'
+require_relative 'Message/Factory'
+require_relative 'Message/ClientHello'
+require_relative 'Message/ServerHello'
 require_relative 'Stream/Byte'
 require_relative 'Stream/Array'
 
@@ -43,10 +43,4 @@ loop do
       connection.close
     end
   end
-
 end
-
-
-
-
-
