@@ -27,7 +27,7 @@ ____
    ```
 3. Run:
    ```bash
-   zig run Server.zig
+   zig run Server.zig -O ReleaseSmall
    ```
 
 # Done!

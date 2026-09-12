@@ -6,7 +6,7 @@ pub const Hello = struct {
     msg: Piranha,
 
     pub fn init(allocator: std.mem.Allocator, conn: std.Io.net.Stream, io: std.Io) Hello {
-        return .{ .msg = Piranha.init(allocator, 20100, 0, conn, io) };
+        return .{ .msg = Piranha.init(allocator, @This(), 20100, 0, conn, io) };
     }
 
     pub fn deinit(self: *Hello) void {

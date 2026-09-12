@@ -1,4 +1,6 @@
 const std = @import("std");
+const Logger = @import("../Core/Logger.zig");
+const shortName = @import("../Core/Piranha.zig").shortName;
 const Hello = @import("../Message/Receive/Login/Hello.zig");
 
 pub fn dispatch(
@@ -10,14 +12,12 @@ pub fn dispatch(
 ) !void {
     switch (id) {
         10100 => {
+            Logger.packetIn(shortName(Hello.Hello));
             var msg = try Hello.Hello.init(allocator, payload, stream, io);
             defer msg.deinit();
             try msg.decode();
             try msg.process();
         },
-        else => {
-            const Logger = @import("../Core/Logger.zig");
-            Logger.unknown(id);
-        },
+        else => Logger.unknown(id),
     }
 }

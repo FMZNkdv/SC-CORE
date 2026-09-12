@@ -70,9 +70,9 @@ pub fn banner() void {
     };
     const lineLen = 46;
     emit("\n", .{});
-    for (lines, 0..) |line, idx| {
+    for (lines, colors) |line, color| {
         center(lineLen);
-        emit("{s}\x1b[1m{s}\x1b[0m\n", .{ colors[idx], line });
+        emit("{s}\x1b[1m{s}\x1b[0m\n", .{ color, line });
     }
 }
 
@@ -95,30 +95,18 @@ pub fn disconnect() void {
     emit("\x1b[33m\x1b[1m[ {s} ]\x1b[0m\x1b[33m  ○  Disconnected\x1b[0m\n", .{a});
 }
 
-pub fn packetIn(id: u16, name: []const u8, _: usize) void {
+fn packet(color: []const u8, arrow: []const u8, name: []const u8) void {
     const a = getAddr();
-    if (std.mem.eql(u8, name, "Unknown")) {
-        var buf: [64]u8 = undefined;
-        const msg = std.fmt.bufPrint(&buf, "Not Found ({d})", .{id}) catch return;
-        center(2 + addrLen + 4 + 5 + msg.len);
-        emit("\x1b[34m\x1b[1m[ {s} ]\x1b[0m\x1b[34m  ←  \x1b[0m\x1b[33m{s}\x1b[0m\n", .{ a, msg });
-    } else {
-        center(2 + addrLen + 4 + 5 + name.len);
-        emit("\x1b[34m\x1b[1m[ {s} ]\x1b[0m\x1b[34m  ←  \x1b[0m{s}\n", .{ a, name });
-    }
+    center(2 + addrLen + 4 + 5 + name.len);
+    emit("{s}\x1b[1m[ {s} ]\x1b[0m{s}  {s}  \x1b[0m{s}\n", .{ color, a, color, arrow, name });
 }
 
-pub fn packetOut(id: u16, name: []const u8, _: usize) void {
-    const a = getAddr();
-    if (std.mem.eql(u8, name, "Unknown")) {
-        var buf: [64]u8 = undefined;
-        const msg = std.fmt.bufPrint(&buf, "Not Found ({d})", .{id}) catch return;
-        center(2 + addrLen + 4 + 5 + msg.len);
-        emit("\x1b[35m\x1b[1m[ {s} ]\x1b[0m\x1b[35m  →  \x1b[0m\x1b[33m{s}\x1b[0m\n", .{ a, msg });
-    } else {
-        center(2 + addrLen + 4 + 5 + name.len);
-        emit("\x1b[35m\x1b[1m[ {s} ]\x1b[0m\x1b[35m  →  \x1b[0m{s}\n", .{ a, name });
-    }
+pub fn packetIn(name: []const u8) void {
+    packet("\x1b[34m", "←", name);
+}
+
+pub fn packetOut(name: []const u8) void {
+    packet("\x1b[35m", "→", name);
 }
 
 pub fn unknown(id: u16) void {
@@ -135,12 +123,4 @@ pub fn clientErr(comptime fmt: []const u8, args: anytype) void {
     const msg = std.fmt.bufPrint(&buf, fmt, args) catch return;
     center(2 + addrLen + 4 + 5 + msg.len);
     emit("\x1b[31m\x1b[1m[ {s} ]  ✗  {s}\x1b[0m\n", .{ a, msg });
-}
-
-pub fn packetName(id: u16) []const u8 {
-    return switch (id) {
-        10100 => "Hello",
-        20100 => "Hello",
-        else => "Unknown",
-    };
 }
