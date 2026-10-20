@@ -2,14 +2,14 @@ const std = @import("std");
 
 pub const Stream = struct {
     allocator: std.mem.Allocator,
-    buffer: std.ArrayListUnmanaged(u8),
+    buffer: std.ArrayList(u8),
     offset: usize,
     bitOffset: u4,
 
     pub fn init(allocator: std.mem.Allocator) Stream {
         return .{
             .allocator = allocator,
-            .buffer = .{ .items = &.{}, .capacity = 0 },
+            .buffer = .empty,
             .offset = 0,
             .bitOffset = 0,
         };
