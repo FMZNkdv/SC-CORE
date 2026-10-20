@@ -12,7 +12,7 @@ ____
 ###### [This content is not affiliated, approved, sponsored or approved specifically by Supercell and Supercell is not responsible for it. For more, see the Supercell Fan Content Policy: www.supercell.com/fan-content-policy.](www.supercell.com/fan-content-policy)
 
 # Requirements:
-* [Zig 0.16.0 - 0.17.0](https://ziglang.org/download/)
+* [Zig 0.18.0](https://ziglang.org/download/)
 * Skills to work with [Supercell](https://en.wikipedia.org/wiki/Supercell_(company)) games. (Brain?)
   
 # Setting up:
